@@ -1,7 +1,6 @@
 import inspect
 from typing import Callable, List, Type
 
-from . import providers
 from .models import BaseModel, BasePlugin, Conversation
 from .settings import settings
 from .utils import find_provider
@@ -17,7 +16,7 @@ class Session:
     def __init__(
         self,
         *,
-        llm_provider: str | providers._llm_providers | None = settings.DEFAULT_LLM_PROVIDER,
+        llm_provider: str = settings.DEFAULT_LLM_PROVIDER,
         llm_model: str | None = None,
         **kwargs,
     ):
@@ -59,7 +58,7 @@ class Session:
 def create_conversation(
     *,
     llm_model: str | None = None,
-    llm_provider: str | providers._llm_providers | None = None,
+    llm_provider: str | None = None,
     plugins: List[BasePlugin] | None = None,
     **kwargs,
 ) -> Conversation:
@@ -82,7 +81,7 @@ def generate_data(
     prompt: str,
     *,
     llm_model: str | None = None,
-    llm_provider: str | providers._llm_providers | None = None,
+    llm_provider: str | None = None,
     response_model: Type[BaseModel],
     **kwargs,
 ) -> BaseModel:
@@ -104,7 +103,7 @@ def generate_text(
     prompt: str,
     *,
     llm_model: str | None = None,
-    llm_provider: str | providers._llm_providers | None = None,
+    llm_provider: str | None = None,
     stream: bool = False,
     **kwargs,
 ) -> str:
@@ -130,7 +129,7 @@ def enable_logfire() -> None:
     settings.logging.enable_logfire()
 
 def tool(
-    llm_provider: str | providers._llm_providers | None = None,
+    llm_provider: str | None = None,
     llm_model: str | None = None,
 ):
     provider = find_provider(llm_provider or settings.DEFAULT_LLM_PROVIDER)
